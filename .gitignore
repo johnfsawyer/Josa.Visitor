@@ -1,3 +1,9 @@
+.vscode/
+*.VC.db
+*.VC.opendb
+build*/
+.DS_Store
+
 # Prerequisites
 *.d
 
