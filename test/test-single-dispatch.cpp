@@ -7,11 +7,6 @@
 namespace jv = josa::visitor;
 using namespace std::string_literals;
 
-TEST_CASE("test single-dispatch visitor class")
-{
-
-}
-
 TEST_CASE("single-dispatch visit function with overload set")
 {
     std::vector<std::unique_ptr<Shape>> shapeVec;
