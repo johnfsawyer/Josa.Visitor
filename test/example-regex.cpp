@@ -273,7 +273,7 @@ struct RegexSyntaxError : std::runtime_error
     using std::runtime_error::runtime_error;
 };
 
-//  RegexParse is a basic recursive descent parser to convert a regular expression string, e.g. 
+//  RegexParser is a basic recursive descent parser to convert a regular expression string, e.g. 
 //  "(a|b)*c", to a regular expression AST.
 //
 class RegexParser
