@@ -42,27 +42,10 @@ using ShapeHierarchy = josa::visitor::hierarchy
 
 Now, Shape objects can be visited from a pointer or reference to the base class Shape, using one of the following three methods.
 
-Option 1 : Create a visitor class
 
-```
-#include <josa/visitor.hpp>
+Option 1 : Visit with a callable object containing overloads for the required types.
 
-struct ShapeNamer : josa::visitor::enable_dispatch<ShapeNamer, ShapeHierarchy>
-{
-    auto operator () (const Square&) const -> std::string { return "square"; }
-    auto operator () (const Circle&) const -> std::string { return "circle"; }
-    auto operator () (const Triangle&) const -> std::string { return "triangle"; }
-};
-
-auto getShapeName(const Shape& shape) -> std::string
-{
-    const ShapeNamer visitor;
-    return visitor.visit(shape);
-}
-
-```
-
-Option 2 : Visit with an overloaded function
+`josa::visitor::overload` can be used, as shown below, instead of creating a struct/class.
 
 ```
 #include <josa/visitor.hpp>
@@ -82,7 +65,7 @@ auto getShapeName(const Shape& shape) -> std::string
 }
 ```
 
-Option 3 : Match function
+Option 2 : Match function
 
 ```
 #include <josa/visitor.hpp>
@@ -98,4 +81,25 @@ auto getShapeName(const Shape& shape) -> std::string
         [](const Triangle&) { return "triangle"s; }
     );
 }
+```
+Option 3 : Create a visitor class
+
+A visitor struct/class is useful when it is necessary to recursively call visit, see [test/example-regex.cpp](test/example-regex.cpp) for better examples.
+
+```
+#include <josa/visitor.hpp>
+
+struct ShapeNamer : josa::visitor::enable_dispatch<ShapeNamer, ShapeHierarchy>
+{
+    auto operator () (const Square&) const -> std::string { return "square"; }
+    auto operator () (const Circle&) const -> std::string { return "circle"; }
+    auto operator () (const Triangle&) const -> std::string { return "triangle"; }
+};
+
+auto getShapeName(const Shape& shape) -> std::string
+{
+    const ShapeNamer visitor;
+    return visitor.visit(shape);
+}
+
 ```
