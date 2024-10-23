@@ -3,8 +3,6 @@ Josa.Visitor is a C++17 header-only library that implements the visitor pattern 
 
 # Motivation
 
-The specific motivation for this project was the need to perform various different types of analyses and modification of an abstract syntax tree (AST). Implementing the various functionality directly inside the classes of the AST would get messy very quickly, this is where the Visitor pattern offers a solution.
-
 The Visitor pattern (as described in "Design Patterns" by Gamma et al.) is useful for extending the functionality of classes within a class hierarchy without implementing that functionality, which may not be essential functions of the classes, directly in each class. This allows the functionality to be kept in a single location instead of being distributed beteween all the classes.
 
 There are some downsides and limitations to this pattern. The class hierarchy needs to be modified to support visitation with an `accept` function, declared as virtual in the base class and overridden in each class. The `accept` function solves the issue of dynamic dispatch. It may not be possible or desirable to modify classes this way, and it prescribes a particular function signature for the visitors' functions.

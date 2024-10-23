@@ -1,5 +1,4 @@
-#include "shapes.hpp"
-#include "colors.hpp"
+#include "types.hpp"
 #include <catch2/catch_test_macros.hpp>
 #include <josa/visitor.hpp>
 #include <memory>

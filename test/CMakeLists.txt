@@ -10,6 +10,8 @@ FetchContent_MakeAvailable(Catch2)
 
 add_executable(test 
   test-single-dispatch.cpp
-  test-double-dispatch.cpp)
+  test-double-dispatch.cpp
+  example-regex.cpp)
+  
 target_link_libraries(test PRIVATE Catch2::Catch2WithMain Josa::Visitor)
 target_compile_features(test PRIVATE cxx_std_17)
