@@ -420,7 +420,7 @@ auto operator ""_rx(const char* s, size_t len) -> RegexExprPtr
 //  Josa.Visitor match function and a 'default' case (since not all classes in hierarchy are
 //  operators with precedence).
 //  
-constexpr auto getPrecedence(const RegexExpr& node) -> int
+auto getPrecedence(const RegexExpr& node) -> int
 {
     return josa::visitor::dispatcher<RegexHierarchy>::match(node)
     (
