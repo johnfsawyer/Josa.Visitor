@@ -1,5 +1,5 @@
-#include <catch2/catch_test_macros.hpp>
 #include <josa/visitor.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <memory>
 #include <stdexcept>
 #include <string>
