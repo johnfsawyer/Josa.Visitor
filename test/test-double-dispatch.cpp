@@ -128,7 +128,7 @@ TEST_CASE("double dispatch enabled visitor class with base handlers")
     CHECK(visitor.visit(*pColor, *pShape) == "blue shape"s);
 }
 
-TEST_CASE("visitor double dispatch")
+TEST_CASE("visitor double dispatch (const, const)")
 {
     using Dispatcher = jv::dispatcher<ColorHierarchy, ShapeHierarchy>;
 
@@ -137,7 +137,6 @@ TEST_CASE("visitor double dispatch")
 
     const Color& color = red;
     const Shape& shape = circle;
-
 
     const auto f = jv::overload
     (
@@ -155,6 +154,99 @@ TEST_CASE("visitor double dispatch")
     (
         [](const Red& c, const Circle& s)   { return true; },
         [](const Color& c, const Shape& s)  { return false; }
+    );
+
+    CHECK(t == true);
+}
+
+TEST_CASE("visitor double dispatch (const, non-const)")
+{
+    using Dispatcher = jv::dispatcher<ColorHierarchy, ShapeHierarchy>;
+
+    const auto red = Red{};
+    auto circle = Circle{};
+
+    const Color& color = red;
+    Shape& shape = circle;
+
+    const auto f = jv::overload
+    (
+        [](const Red& c, Square& s)   { return "red square"s; },
+        [](const Red& c, Circle& s)   { return "red circle"s; },
+        [](const Blue& c, Square& s)  { return "blue square"s; },
+        [](const Blue& c, Circle& s)  { return "blue circle"s; }
+    );
+
+    const auto s = Dispatcher::visit(f, color, shape);
+
+    CHECK(s == "red circle");
+    
+    const auto t = Dispatcher::match(color, shape)
+    (
+        [](const Red& c, Circle& s)   { return true; },
+        [](const Color& c, Shape& s)  { return false; }
+    );
+
+    CHECK(t == true);
+}
+
+TEST_CASE("visitor double dispatch (non-const, const)")
+{
+    using Dispatcher = jv::dispatcher<ColorHierarchy, ShapeHierarchy>;
+
+    auto red = Red{};
+    const auto circle = Circle{};
+
+    Color& color = red;
+    const Shape& shape = circle;
+
+    const auto f = jv::overload
+    (
+        [](Red& c, const Square& s)   { return "red square"s; },
+        [](Red& c, const Circle& s)   { return "red circle"s; },
+        [](Blue& c, const Square& s)  { return "blue square"s; },
+        [](Blue& c, const Circle& s)  { return "blue circle"s; }
+    );
+
+    const auto s = Dispatcher::visit(f, color, shape);
+
+    CHECK(s == "red circle");
+    
+    const auto t = Dispatcher::match(color, shape)
+    (
+        [](Red& c, const Circle& s)   { return true; },
+        [](Color& c, const Shape& s)  { return false; }
+    );
+
+    CHECK(t == true);
+}
+
+TEST_CASE("visitor double dispatch (non-const, non-const)")
+{
+    using Dispatcher = jv::dispatcher<ColorHierarchy, ShapeHierarchy>;
+
+    auto red = Red{};
+    auto circle = Circle{};
+
+    Color& color = red;
+    Shape& shape = circle;
+
+    const auto f = jv::overload
+    (
+        [](Red& c, Square& s)   { return "red square"s; },
+        [](Red& c, Circle& s)   { return "red circle"s; },
+        [](Blue& c, Square& s)  { return "blue square"s; },
+        [](Blue& c, Circle& s)  { return "blue circle"s; }
+    );
+
+    const auto s = Dispatcher::visit(f, color, shape);
+
+    CHECK(s == "red circle");
+    
+    const auto t = Dispatcher::match(color, shape)
+    (
+        [](Red& c, Circle& s)   { return true; },
+        [](Color& c, Shape& s)  { return false; }
     );
 
     CHECK(t == true);

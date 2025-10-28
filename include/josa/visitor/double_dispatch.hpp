@@ -137,19 +137,19 @@ namespace josa::visitor
         static auto match(const Base1& obj1, Base2& obj2) -> decltype(auto)
         {
             return [&obj1, &obj2](auto&&... fs) -> decltype(auto) {
-                return dispatcher(overload(std::forward<decltype(fs)>(fs)...), obj1, obj2); };
+                return dispatcher::visit(overload(std::forward<decltype(fs)>(fs)...), obj1, obj2); };
         }
 
         static auto match(Base1& obj1, const Base2& obj2) -> decltype(auto)
         {
             return [&obj1, &obj2](auto&&... fs) -> decltype(auto) {
-                return dispatcher(overload(std::forward<decltype(fs)>(fs)...), obj1, obj2); };
+                return dispatcher::visit(overload(std::forward<decltype(fs)>(fs)...), obj1, obj2); };
         }
 
         static auto match(Base1& obj1, Base2& obj2) -> decltype(auto)
         {
             return [&obj1, &obj2](auto&&... fs) -> decltype(auto) {
-                return dispatcher(overload(std::forward<decltype(fs)>(fs)...), obj1, obj2); };
+                return dispatcher::visit(overload(std::forward<decltype(fs)>(fs)...), obj1, obj2); };
         }
     };
 
